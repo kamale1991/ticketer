@@ -1,0 +1,17 @@
+[package]
+name = "todo-cli"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+serde_json = "1.0.60"
+getopts = "0.2"
+koyomi = "0.3"
+chrono = "0.4"
+rocket = "0.4.10"
+#rocket_contrib={version="0.4", features=["json"]}
+serde = {version="1.0", features=["derive"]}
+diesel = { version = "1.4.0", features = ["sqlite"] }
+dotenv = "0.10"
