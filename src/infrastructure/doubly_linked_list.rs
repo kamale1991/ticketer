@@ -1,15 +1,22 @@
+//use core::num::fmt::Part;
 use std::borrow::BorrowMut;
 use std::cell::RefCell;
 use std::rc::Rc;
 use std::fmt;
 
+use num::bigint::ParseBigIntError;
+
 type Link<T> = Rc<RefCell<Node<T>>>;
 
-pub struct Iter<T> {
+pub struct Iter<T>
+where T: PartialEq,
+{
     current: Option<Link<T>>,
 }
 
-impl<T: Clone> Iterator for Iter<T> {
+impl<T: Clone> Iterator for Iter<T>
+where T: PartialEq,
+{
     type Item = T;
     fn next(&mut self) -> Option<Self::Item> {
         match self.current.take() {
@@ -31,7 +38,9 @@ impl<T: Clone> Iterator for Iter<T> {
     }
 }
 
-impl<T: Clone> DoubleEndedIterator for Iter<T> {
+impl<T: Clone> DoubleEndedIterator for Iter<T>
+where T: PartialEq,
+{
     fn next_back(&mut self) -> Option<T> {
         match self.current.take() {
             None => None,
@@ -53,7 +62,9 @@ impl<T: Clone> DoubleEndedIterator for Iter<T> {
 }
 
 #[derive(Debug)]
-struct Node<T> {
+struct Node<T> 
+where T: PartialEq,
+{
     value: T,
     prev: Option<Link<T>>,
     next: Option<Link<T>>,
@@ -61,7 +72,9 @@ struct Node<T> {
 
 // 以下のサイトを参考にして実装した
 // https://blog.ymgyt.io/entry/2019/08/17/013313
-impl<T> Node<T> {    
+impl<T> Node<T> 
+where T: PartialEq,
+{        
     fn new(value: T) -> Link<T> {
         Rc::new(RefCell::new(
             Self {
@@ -73,14 +86,48 @@ impl<T> Node<T> {
     }
 }
 
+impl<T: Clone> PartialEq for Node<T> 
+where T: PartialEq,
+{
+    fn eq(&self, other: &Self) -> bool {
+        if self.value == other.value {
+            return true
+        } else {
+            return false
+        }
+    }
+}
+
 #[derive(Default)]
-pub struct LinkedList<T> {
+pub struct LinkedList<T>
+where T: PartialEq,
+{
     head: Option<Link<T>>,
     tail: Option<Link<T>>,
     length: usize,
 }
 
-impl<T> LinkedList<T> {
+impl<T: Clone> PartialEq for LinkedList<T>
+where T: PartialEq,
+{
+    fn eq(&self, other: &Self) -> bool {
+        if self.length != other.length {
+            return false
+        }
+        let mut iter_other = other.iter();
+        let mut iter = self.iter();
+        for i in 0..self.length {
+            if iter_other.next() != iter.next() {
+                return false
+            }
+        }
+        true
+    }
+}
+
+impl<T> LinkedList<T>
+where T: PartialEq,
+{
     pub fn new() -> Self {
         Self {
             head: None,
@@ -132,10 +179,11 @@ impl<T> LinkedList<T> {
             },
         }
     }
-
 }
 
-impl<T: fmt::Display + Clone> fmt::Debug for LinkedList<T> {
+impl<T: fmt::Display + Clone> fmt::Debug for LinkedList<T>
+where T: PartialEq,
+{
     fn fmt(&self, f: &mut fmt::Formatter) -> Result<(), fmt::Error> {
         let iter = self.iter();
         write!(f, "{{ head")?;
@@ -146,46 +194,30 @@ impl<T: fmt::Display + Clone> fmt::Debug for LinkedList<T> {
     }
 }
 
-/*
-    pub fn get(index: i32) -> Result<T, ()> {
-        match Self::head {
-            None => panic!("Invalid index. There is no head node."),
-            Some(_) => {
-                let cur: Option<Node<T>> = Self::head; //.clone();
-                for i in 0..index {                    
-                    if cur.unwrap().next == None {
-                        panic!("")
-                    }
-                    cur = cur.unwrap().next.unwrap().as_mut();
-                }
-                Ok(cur.val_ptr)
-            }
+impl<T: fmt::Display + Clone> fmt::Display for LinkedList<T>
+where T: PartialEq,
+{
+    fn fmt(&self, f: &mut fmt::Formatter) -> Result<(), fmt::Error> {
+        let iter = self.iter();
+        write!(f, "{{ head")?;
+        for v in iter {
+            write!(f, " -> {}", v)?;            
         }
-    }
-
-    pub fn add_at_head(val_ptr: NonNull<T>) {
-        if (head == Null) {
-            head = Node::new_item(val_ptr);
-            head;
-        }
-        let node: Self = Node::new_item(val_ptr);
-        node.next = head;
-        head.prev = node;
-        head = node;
+        write!(f, " }}")
     }
 }
-*/
+
 
 #[cfg(test)]
 mod tests {
     use super::*;    
 
-    //#[test]
-    //fn test_append() {
-    //    let x: i32 = 1;
-    //    let ll = LinkedList::new();
-    //    ll.append(x);        
-    //}
+    #[test]
+    fn test_append() {
+        let x: i32 = 1;
+        let mut ll = LinkedList::new();
+        ll.append(x);        
+    }
 
     #[test]
     fn reverse() {

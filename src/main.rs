@@ -1,8 +1,12 @@
+extern crate chrono;
+extern crate diesel;
+extern crate dotenv;
+extern crate num;
+
 mod infrastructure;
 mod domain;
 mod application;
 mod presentation;
-
 use std::collections::HashMap;
 use std::io::BufReader;
 
@@ -14,8 +18,7 @@ use std::fs::File;
 use std::fs::read_to_string;
 use std::path::Path;
 
-//use std::str::FromStr;
-//use std::io::Read;
+use infrastructure::calender;
 
 struct Todo {
     map: HashMap<String, bool>,
@@ -105,7 +108,7 @@ fn print_usage(program: &str, opts: Options) {
     print!("{}", opts.usage(&brief));
 }
 
-fn main() {
+fn run_todo_app() {
     let args: Vec<String> = env::args().collect();
     let program = args[0].clone();
     let mut opts = Options::new();
@@ -159,5 +162,14 @@ fn main() {
         },
         _ => panic!("There was a problem to read ACTION")
     }
+}
 
+fn test_calender_function() {
+
+}
+
+fn main() {
+    //run_todo_app();
+
+    calender::cli_calender();
 }

@@ -1,10 +1,6 @@
-#[macro_use]
-extern crate diesel;
-
 use diesel::prelude::*;
-
-#[macro_use]
-extern crate dotenv;
+use dotenv::dotenv;
+use std::env;
 
 pub fn establish_connection() -> SqliteConnection {
     dotenv().ok();
