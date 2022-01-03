@@ -16,3 +16,5 @@ serde = {version="1.0", features=["derive"]}
 diesel = { version = "1.4.0", features = ["sqlite"] }
 dotenv = "0.10"
 num = "*"
+domain_patterns = "0.2.141"
+uuid = "0.8"

@@ -111,6 +111,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "domain_patterns"
+version = "0.2.141"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "32ca82a4b873114fdbfc3d437715446d95c2780fca95a51691b93716b70ba123"
+dependencies = [
+ "serde",
+]
+
+[[package]]
 name = "dotenv"
 version = "0.10.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -435,12 +444,14 @@ version = "0.1.0"
 dependencies = [
  "chrono",
  "diesel",
+ "domain_patterns",
  "dotenv",
  "getopts",
  "koyomi",
  "num",
  "serde",
  "serde_json",
+ "uuid",
 ]
 
 [[package]]
@@ -472,6 +483,12 @@ name = "utf8-ranges"
 version = "1.0.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b4ae116fef2b7fea257ed6440d3cfcff7f190865f170cdad00bb6465bf18ecba"
+
+[[package]]
+name = "uuid"
+version = "0.8.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "bc5cf98d8186244414c848017f0e2676b3fcb46807f6668a97dfe67359a3c4b7"
 
 [[package]]
 name = "vcpkg"

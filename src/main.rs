@@ -20,6 +20,20 @@ use std::path::Path;
 
 use infrastructure::calender;
 
+/*
+- TODO(UseCases #1) add use cases
+- TODO(UseCases) implement use cases using Interactor struct
+- TODO(Entity #1) add Entity: Ticket, User, UserGroup, Project    
+- TODO(Repository #1) add Entity with CRUD interface to hold ticket/user data: Create/Read/Update/Delete function
+- TODO(Presenter #1) convert output data to Ticket View Model: whole ticket, selected ticket
+- TODO(Presenter #2) convert output data to Calender View Object: monthly, weekly, daily
+- TODO(Presenter #3) convert output data to Timeline View Object
+- TODO(Controller #1) convert user input to system language
+- TODO(Web #1) connect to web server (firebase) from CLI interface
+- TODO(UI #1) add calender view in CLI
+- TODO(UI #2) add timeline view in CLI
+*/
+
 struct Todo {
     map: HashMap<String, bool>,
 }
